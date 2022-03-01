@@ -1,0 +1,21 @@
+.git
+.github
+**/.gitignore
+.vscode
+coverage
+azure-pipelines.yml
+*.md
+.prettierrc
+Makefile
+
+# Docker
+Dockerfile*
+docker-compose.yml
+.dockerignore
+
+# Node Files
+node_modules
+npm-debug.log
+npm-debug.log.*
+
+# Source files
