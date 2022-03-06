@@ -11,7 +11,7 @@ pipeline {
 
             steps {
                 git branch: 'master', credentialsId: '1ed4edcf-1fdc-4de2-b7db-1cb32017607e', url: 'git@github.com:ridwan779/ip-location.git';
-                sh "chmod +x -R ${env.WORKSPACE}";
+                sh "chmod +x -R '${env.WORKSPACE}'";
             }
 
         }
