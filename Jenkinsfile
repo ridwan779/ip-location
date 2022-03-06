@@ -24,6 +24,12 @@ pipeline {
 
         stage("Login") {
             steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u echo $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+
+        stage("Push") {
+            steps {
                 sh 'docker push ridwan779/ip-location:latest'
             }
         }
