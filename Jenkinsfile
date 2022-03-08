@@ -37,7 +37,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 sshagent(['vultr-ssh-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "echo pwd"'
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "pwd"'
                 }
             }
         }
