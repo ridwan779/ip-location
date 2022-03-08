@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 # Install timezone
 RUN apk update && apk add tzdata
 ENV TZ="Asia/Jakarta"
+ENV APP_PORT="8024"
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
