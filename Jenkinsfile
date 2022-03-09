@@ -36,20 +36,18 @@ pipeline {
 
         stage("Deploy") {
             steps {
-                // sshagent(['vultr-ssh-key']) {
-                //     sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin && docker pull ridwan779/ip-location'"
-                //     sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -a | grep ip-location && docker stop ip-location"'
-                //     sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -a | grep ip-location && docker rm ip-location"'
-                //     sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'docker run --name ip-location -p 8881:8024 -d ridwan779/ip-location --rm && exit'"
+                sshagent(['vultr-ssh-key']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin && docker pull ridwan779/ip-location'"
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=running --format "{{.Names}}" | grep ip-location && docker stop ip-location || exit"'
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=running --format "{{.Names}}" | grep ip-location && docker rm ip-location || exit"'
+                    sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'docker run --name ip-location -p 8881:8024 -d ridwan779/ip-location && exit'"
                     
-                // }
-                script {
-                    sshagent(['vultr-ssh-key']) {
-                        sh "ssh -t -t -o StrictHostKeyChecking=no root@45.76.148.121"
-                        sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin && docker pull ridwan779/ip-location"
-                        sh "exit"
-                    }
                 }
+                // script {
+                //     sshagent(['vultr-ssh-key']) {
+                //         sh "ssh -t -t root@45.76.148.121 -o StrictHostKeyChecking=no 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin && docker pull ridwan779/ip-location && exit'"
+                //     }
+                // }
             }
         }
 
