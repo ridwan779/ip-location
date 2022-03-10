@@ -5,10 +5,6 @@ pipeline {
         DOCKERHUB_CREDENTIALS=credentials('docker-ridwan779')
     }
 
-    triggers {
-        githubPush() // Enabling being build on Push
-    }
-
     stages {
 
         stage("Git") {
