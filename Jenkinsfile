@@ -41,9 +41,9 @@ pipeline {
             steps {
                 sshagent(['vultr-ssh-key']) {
                     sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin && docker pull ridwan779/ip-location'"
-                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=running --format "{{.Names}}" | grep ip-location && docker stop ip-location || exit 0"'
-                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -a | grep ip-location && docker rm ip-location || exit 0"'
-                    sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'docker run --name ip-location -p 8881:8024 -d ridwan779/ip-location && exit 0'"
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=running --format "{{.Names}}" | grep -nx ip-location-production && docker stop ip-location-production || exit 0"'
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=exited --format "{{.Names}}" | grep -nx ip-location-production && docker rm ip-location-production || exit 0"'
+                    sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'docker run --name ip-location-production -p 8881:8024 -d ridwan779/ip-location && exit 0'"
                 }
                 // script {
                 //     sshagent(['vultr-ssh-key']) {
@@ -60,9 +60,9 @@ pipeline {
             steps {
                 sshagent(['vultr-ssh-key']) {
                     sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin && docker pull ridwan779/ip-location'"
-                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=running --format "{{.Names}}" | grep ip-location && docker stop ip-location || exit 0"'
-                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -a | grep ip-location && docker rm ip-location || exit 0"'
-                    sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'docker run --name ip-location -p 8882:8024 -d ridwan779/ip-location && exit 0'"
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=running --format "{{.Names}}" | grep ip-location-development && docker stop ip-location-development || exit 0"'
+                    sh 'ssh -o StrictHostKeyChecking=no root@45.76.148.121 "docker ps -f status=exited --format "{{.Names}}" | grep ip-location-development && docker rm ip-location-development || exit 0"'
+                    sh "ssh -o StrictHostKeyChecking=no root@45.76.148.121 'docker run --name ip-location-development -p 8882:8024 -d ridwan779/ip-location && exit 0'"
                 }
                 // script {
                 //     sshagent(['vultr-ssh-key']) {
