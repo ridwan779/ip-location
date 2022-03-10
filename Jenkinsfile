@@ -6,7 +6,7 @@ pipeline {
     }
 
     triggers {
-        pollSCM('') // Enabling being build on Push
+        githubPush() // Enabling being build on Push
     }
 
     stages {
