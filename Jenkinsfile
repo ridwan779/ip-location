@@ -22,14 +22,28 @@ pipeline {
             }
         }
 
-        stage("Login") {
+        stage("SonarQube Analyst") {
+            script {
+                def scannerHome = tool 'SonarScanner 4.7';
+                steps {
+                    withSonarQubeEnv('SonarQube', credentialsId: 'jenkins-sonarqube') {
+                        sh "${scannerHome}/sonar-scanner"
+                    }
+                }
+            }
+        }
+
+        stage("Quality Gate") {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube'
+                }
             }
         }
 
         stage("Push") {
             steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push ridwan779/ip-location:latest'
             }
         }

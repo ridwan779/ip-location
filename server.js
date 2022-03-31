@@ -7,9 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/check-ip', function (req, res) {
-    console.log('test2');
-    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
-    console.log(ip);
+    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
     res.json({
         ip: ip
     });
